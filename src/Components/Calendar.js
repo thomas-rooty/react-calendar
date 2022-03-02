@@ -4,10 +4,12 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import {getEvents, deleteEvent, addEvent, getEventDetails} from '../services/EventsManagement';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
+import DetailsModal from "./DetailsModal";
 
 
 const Calendar = () => {
     const [events, setEvents] = React.useState([]);
+    const [selectedEvent, setSelectedEvent] = React.useState(null);
     React.useEffect(() => {
         // Get all event and wait for response, then set events
         getEvents().then(res => {
@@ -26,7 +28,8 @@ const Calendar = () => {
     // Show event details
     const handleEventClick = (arg) => {
         getEventDetails(arg.event.id).then(res => {
-            console.log(res);
+            setSelectedEvent(res);
+            document.getElementById("modal").style.display = "block";
         })
     }
 
@@ -58,6 +61,10 @@ const Calendar = () => {
         document.getElementById("addEventModal").style.display = "none";
     }
 
+    const onClose = () => {
+        document.getElementById("modal").style.display = "none";
+    }
+
     return (
         <div className="calendarContainer">
             <button className="addEventButton" onClick={handleAddEvent}>Add an event</button>
@@ -67,6 +74,7 @@ const Calendar = () => {
                 events={events}
                 eventClick={handleEventClick}
             />
+            {selectedEvent && <DetailsModal event={selectedEvent} onClose={onClose}/>}
             <div id="addEventModal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal} >&times;</span>
