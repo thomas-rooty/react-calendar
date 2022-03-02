@@ -1,7 +1,7 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import {eventsManagement} from '../services/EventsManagement';
+import {getEvents, deleteEvent} from '../services/EventsManagement';
 import interactionPlugin from "@fullcalendar/interaction";
 
 
@@ -9,7 +9,7 @@ const Calendar = () => {
     // Fetch events from eventsManagement
     const [events, setEvents] = React.useState([]);
     React.useEffect(() => {
-        eventsManagement().then(res => {
+        getEvents().then(res => {
             res.forEach(todo => {
                 setEvents(prevEvents => [...prevEvents, {
                     title: todo.title,
@@ -23,6 +23,9 @@ const Calendar = () => {
 
     const handleEventClick = (arg) => {
         let eventId = arg.event.id;
+        deleteEvent(eventId).then(res => {
+            setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId))
+        })
     }
 
     return (
