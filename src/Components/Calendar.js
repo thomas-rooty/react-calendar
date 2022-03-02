@@ -23,9 +23,12 @@ const Calendar = () => {
 
     const handleEventClick = (arg) => {
         let eventId = arg.event.id;
-        deleteEvent(eventId).then(res => {
-            setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId))
-        })
+        // Ask for confirmation
+        if (window.confirm("Are you sure you want to delete this event?")) {
+            deleteEvent(eventId).then(res => {
+                setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId))
+            })
+        }
     }
 
     return (
