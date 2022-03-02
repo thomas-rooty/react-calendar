@@ -1,7 +1,7 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import {getEvents, deleteEvent, addEvent, getEventDetails} from '../services/EventsManagement';
+import {getEvents, addEvent, getEventDetails} from '../services/EventsManagement';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
 import DetailsModal from "./DetailsModal";
@@ -10,8 +10,7 @@ import DetailsModal from "./DetailsModal";
 const Calendar = () => {
     const [events, setEvents] = React.useState([]);
     const [selectedEvent, setSelectedEvent] = React.useState(null);
-    React.useEffect(() => {
-        // Get all event and wait for response, then set events
+    const fetchEvents = () => {
         getEvents().then(res => {
             res.forEach(todo => {
                 setEvents(prevEvents => [...prevEvents, {
@@ -23,12 +22,18 @@ const Calendar = () => {
                 }])
             })
         })
+    };
+
+    React.useEffect(() => {
+        // Get all event and wait for response, then set events
+        fetchEvents();
     }, []);
 
     // Show event details
     const handleEventClick = (arg) => {
         getEventDetails(arg.event.id).then(res => {
             setSelectedEvent(res);
+            console.log(res);
             document.getElementById("modal").style.display = "block";
         })
     }

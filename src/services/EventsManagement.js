@@ -8,6 +8,8 @@ export const getEvents = () => {
 };
 
 export const deleteEvent = (id) => {
+    // Close div with id modal
+    document.getElementById("modal").style.display = "none";
     const api = `http://localhost:5000/api/events/delete/${id}`;
     return fetch(api, {
         method: "DELETE"
