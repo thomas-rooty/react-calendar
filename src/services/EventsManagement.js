@@ -8,7 +8,7 @@ export const getEvents = () => {
 };
 
 export const deleteEvent = (id) => {
-    const api = `http://localhost:5000/api/events/${id}`;
+    const api = `http://localhost:5000/api/events/delete/${id}`;
     return fetch(api, {
         method: "DELETE"
     })
@@ -16,7 +16,7 @@ export const deleteEvent = (id) => {
         .catch(err => console.log(err));
 };
 
-export const addEvent = (title, start, end) => {
+export const addEvent = (title, content, start, end) => {
     const api = "http://localhost:5000/api/events";
     return fetch(api, {
         method: "POST",
@@ -25,10 +25,18 @@ export const addEvent = (title, start, end) => {
         },
         body: JSON.stringify({
             title,
+            content,
             start,
             end
         })
     })
+        .then(res => res.json())
+        .catch(err => console.log(err));
+};
+
+export const getEventDetails = (id) => {
+    const api = `http://localhost:5000/api/events/${id}`;
+    return fetch(api)
         .then(res => res.json())
         .catch(err => console.log(err));
 };
