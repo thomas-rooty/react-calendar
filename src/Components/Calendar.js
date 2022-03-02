@@ -1,15 +1,15 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import {getTodos} from '../services/getTodos';
+import {eventsManagement} from '../services/EventsManagement';
 import interactionPlugin from "@fullcalendar/interaction";
 
 
 const Calendar = () => {
-    // Fetch events from getTodos
+    // Fetch events from eventsManagement
     const [events, setEvents] = React.useState([]);
     React.useEffect(() => {
-        getTodos().then(res => {
+        eventsManagement().then(res => {
             res.forEach(todo => {
                 setEvents(prevEvents => [...prevEvents, {
                     title: todo.title,
@@ -22,7 +22,7 @@ const Calendar = () => {
     }, []);
 
     const handleEventClick = (arg) => {
-        console.log(arg.event.id);
+        let eventId = arg.event.id;
     }
 
     return (

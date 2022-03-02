@@ -1,6 +1,6 @@
 import React from "react";
 
-export const getTodos = () => {
+export const eventsManagement = () => {
     const api = "http://localhost:5000/api/events";
     return fetch(api)
         .then(res => res.json())
