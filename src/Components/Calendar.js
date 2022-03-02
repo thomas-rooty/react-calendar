@@ -33,7 +33,7 @@ const Calendar = () => {
     // Create an event on the calendar
     const handleAddEvent = (arg) => {
         // Open the modal
-        document.getElementById("modal").style.display = "block";
+        document.getElementById("addEventModal").style.display = "block";
     }
 
     // Submit the event to the api and close the modal
@@ -43,9 +43,10 @@ const Calendar = () => {
         const content = event.target.elements.content.value;
         const start = event.target.elements.start.value;
         const end = event.target.elements.end.value;
-        addEvent(title, start, end).then(res => {
+        addEvent(title, content, start, end).then(res => {
             setEvents(prevEvents => [...prevEvents, {
                 title: title,
+                content: content,
                 start: start,
                 end: end
             }])
@@ -54,7 +55,7 @@ const Calendar = () => {
     }
 
     const closeModal = () => {
-        document.getElementById("modal").style.display = "none";
+        document.getElementById("addEventModal").style.display = "none";
     }
 
     return (
@@ -66,7 +67,7 @@ const Calendar = () => {
                 events={events}
                 eventClick={handleEventClick}
             />
-            <div id="modal">
+            <div id="addEventModal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal} >&times;</span>
                     <form onSubmit={handleSubmit}>
