@@ -32,6 +32,13 @@ const Calendar = () => {
         }
     }
 
+    // Create an event on the calendar
+    const handleDateClick = (arg) => {
+        // Open the modal
+        document.getElementById("modal").style.display = "block";
+    }
+
+    // Submit the event to the api and close the modal
     const handleSubmit = (event) => {
         event.preventDefault();
         const title = event.target.elements.title.value;
@@ -44,12 +51,7 @@ const Calendar = () => {
                 end: end
             }])
         })
-    }
-
-    // Create an event on the calendar
-    const handleDateClick = (arg) => {
-        // Open the modal
-        document.getElementById("modal").style.display = "block";
+        closeModal();
     }
 
     const closeModal = () => {
