@@ -1,17 +1,17 @@
 import React from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import {getEvents, addEvent, getEventDetails} from '../services/EventsManagement';
+import {getEvents, addEvent, getEventDetails, deleteEvent} from '../services/EventsManagement';
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
 import DetailsModal from "./DetailsModal";
-
 
 const Calendar = () => {
     const [events, setEvents] = React.useState([]);
     const [selectedEvent, setSelectedEvent] = React.useState(null);
     const fetchEvents = () => {
         getEvents().then(res => {
+            // noinspection JSUnresolvedFunction
             res.forEach(todo => {
                 setEvents(prevEvents => [...prevEvents, {
                     title: todo.title,
@@ -44,6 +44,13 @@ const Calendar = () => {
         document.getElementById("addEventModal").style.display = "block";
     }
 
+    // Refresh the events
+    const handleEventRefresh = (arg) => {
+        // Update the event
+        setEvents([]);
+        fetchEvents();
+    }
+
     // Submit the event to the api and close the modal
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -58,6 +65,7 @@ const Calendar = () => {
                 start: start,
                 end: end
             }])
+            handleEventRefresh();
         })
         closeModal();
     }
@@ -79,7 +87,7 @@ const Calendar = () => {
                 events={events}
                 eventClick={handleEventClick}
             />
-            {selectedEvent && <DetailsModal event={selectedEvent} onClose={onClose}/>}
+            {selectedEvent && <DetailsModal event={selectedEvent} onClose={onClose} handleEventRefresh={handleEventRefresh}/>}
             <div id="addEventModal">
                 <div className="modal-content">
                     <span className="close" onClick={closeModal} >&times;</span>

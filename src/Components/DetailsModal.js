@@ -2,7 +2,12 @@ import React from 'react';
 import "./DetailsModal.css";
 import {deleteEvent} from '../services/EventsManagement';
 
-const DetailsModal = ({event :{title, content, start, end, _id}, onClose}) => {
+const DetailsModal = ({event :{title, content, start, end, _id}, onClose, handleEventRefresh}) => {
+    const deleteAnEvent = () => {
+        deleteEvent(_id).then(res => {
+            handleEventRefresh();
+        })
+    }
     return (
         <div id="modal">
             <div className="modal-content">
@@ -11,7 +16,7 @@ const DetailsModal = ({event :{title, content, start, end, _id}, onClose}) => {
                 <p>{content}</p><br/>
                 <p>Commence le : {start}</p>
                 <p>Fin le : {end}</p>
-                <button className="delete-button" onClick={() => deleteEvent(_id)}>Supprimer</button>
+                <button className="delete-button" onClick={() => deleteAnEvent()}>Supprimer</button>
             </div>
         </div>
     );
